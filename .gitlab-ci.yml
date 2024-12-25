@@ -58,7 +58,7 @@ docker-arm64v8-build:
   image: docker:latest
   stage: build
   variables:
-    BASE_IMAGE: "arm64v8/node:18-bullseye-slim"
+    BASE_IMAGE: "arm64v8/node:20-bullseye-slim"
   services:
     - docker:dind
   before_script:
