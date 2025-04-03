@@ -11,6 +11,8 @@ services:
       - MYSQL_USER=majesticflame
       - MYSQL_PASSWORD=1234
     restart: unless-stopped
+    networks:
+      - shinobi-net
 
   shinobi:
     build:
@@ -20,7 +22,6 @@ services:
     volumes:
       - /dev/shm/ShinobiRAM:/dev/shm/streams
       - $HOME/Shinobi:/home/Shinobi
- #     - /dev/video0:/dev/video0
     ports:
       - "8080:8080"
     environment:
@@ -31,6 +32,9 @@ services:
       - DB_DATABASE=ccio
       - SHINOBI_UPDATE=false
     restart: unless-stopped
-#    network_mode: "host"
-#    devices:
-#      - "/dev/video0:/dev/video0"
+    networks:
+      - shinobi-net
+
+networks:
+  shinobi-net:
+    driver: bridge
