@@ -35,13 +35,8 @@ services:
     networks:
       - shinobi-net
 
-  cleaner:
-    build: ./cleaner
-    container_name: cleaner
-    restart: unless-stopped
-    volumes:
-      - /proc:/host/proc:ro
-    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    cleanner:
+     
 
 networks:
   shinobi-net:
