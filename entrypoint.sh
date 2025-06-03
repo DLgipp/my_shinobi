@@ -46,3 +46,7 @@ node tools/modifyConfiguration.js addToConfig="{\"db\": $DB_CONFIG}"
 pm2 flush
 pm2 start camera.js
 pm2 logs --lines 200
+
+
+envsubst '$DOMAIN' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+exec nginx -g 'daemon off;'

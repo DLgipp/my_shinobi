@@ -43,6 +43,36 @@ services:
       - /proc:/host/proc:ro
     entrypoint: ["/bin/bash", "/entrypoint.sh"]
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    depends_on:
+      - shinobi
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - shinobi-net
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    depends_on:
+      - nginx
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+    entrypoint: >
+      sh -c "certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d ${DOMAIN} || echo 'Certbot failed or cert already exists'"
+    networks:
+      - shinobi-net
+
+volumes:
+  certbot-etc:
+
 networks:
   shinobi-net:
     driver: bridge
