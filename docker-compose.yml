@@ -19,6 +19,7 @@ services:
       context: .
       args:
         SHINOBI_BRANCH: dev
+    container_name: shinobi
     volumes:
       - /dev/shm/ShinobiRAM:/dev/shm/streams
       - $HOME/Shinobi:/home/Shinobi
@@ -58,14 +59,13 @@ services:
       - "443:443"
     networks:
       - shinobi-net
-
   certbot:
     image: certbot/certbot
     container_name: certbot
     volumes:
       - certbot-etc:/etc/letsencrypt
     entrypoint: >
-      sh -c "certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d ${DOMAIN} || echo 'Certbot failed or cert already exists' && sleep 10"
+      sh -c "certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d ${DOMAIN} || echo 'Certbot failed or cert already exists'"
     networks:
       - shinobi-net
 
