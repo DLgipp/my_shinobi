@@ -49,6 +49,7 @@ services:
     restart: always
     depends_on:
       - shinobi
+      - certbot
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt:ro
@@ -61,12 +62,10 @@ services:
   certbot:
     image: certbot/certbot
     container_name: certbot
-    depends_on:
-      - nginx
     volumes:
       - certbot-etc:/etc/letsencrypt
     entrypoint: >
-      sh -c "certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d ${DOMAIN} || echo 'Certbot failed or cert already exists'"
+      sh -c "certbot certonly --standalone --non-interactive --agree-tos --register-unsafely-without-email -d ${DOMAIN} || echo 'Certbot failed or cert already exists' && sleep 10"
     networks:
       - shinobi-net
 
