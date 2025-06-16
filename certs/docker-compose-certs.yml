@@ -1,0 +1,18 @@
+version: '3'
+services:
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+    entrypoint: >
+      sh -c "certbot certonly --standalone --non-interactive --agree-tos --email your-email@example.com -d your-domain.com || echo 'Certbot failed or cert already exists'"
+    networks:
+      - shinobi-net
+
+volumes:
+  certbot-etc:
+
+networks:
+  shinobi-net:
+    driver: bridge
