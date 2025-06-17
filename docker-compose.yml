@@ -52,7 +52,7 @@ services:
       - shinobi
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     ports:
       - "80:80"
       - "443:443"
